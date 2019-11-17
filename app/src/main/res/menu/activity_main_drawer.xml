@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_fav"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="Favourites" />
+        <item
+            android:id="@+id/nav_substatus"
+            android:icon="@drawable/ic_add_black_24dp"
+            android:title="Submit Status" />
+        <item
+            android:id="@+id/nav_shayarivideo"
+            android:icon="@drawable/ic_videocam_black_24dp"
+            android:title="Shyari Video" />
+
+        <item
+            android:id="@+id/nav_otherapp"
+            android:icon="@drawable/ic_archive_black_24dp"
+            android:title="Other Apps"/>
+
+        <item
+            android:id="@+id/nav_rateapp"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="Rate this app"/>
+
+        <item
+            android:id="@+id/nav_developer"
+            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:title="Developer"/>
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/ic_perm_contact_calendar_black_24dp"
+            android:title="Contact With Us"/>
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="Help"/>
+    </group>
+
+</menu>
