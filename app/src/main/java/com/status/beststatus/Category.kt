@@ -16,11 +16,14 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_category.*
 import java.util.*
 import android.app.ProgressDialog
+import android.content.Intent
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.MenuItem
 import androidx.cardview.widget.CardView
+import com.yuyakaido.android.cardstackview.CardStackListener
+import com.yuyakaido.android.cardstackview.Direction
 
 
 class Category : AppCompatActivity() {
@@ -32,8 +35,9 @@ class Category : AppCompatActivity() {
         setContentView(R.layout.activity_category)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        var key=intent.getStringExtra("key")
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference(intent.getStringExtra("key"))
+        val myRef = database.getReference(key)
         var list=LinkedList<String>()
 
         dialog=ProgressDialog(this)
@@ -49,10 +53,11 @@ class Category : AppCompatActivity() {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                list.clear()
                 for (ds in dataSnapshot.children) {
                     list.add(ds.key!!)
                 }
-                catrecycler.adapter=CatAdapter(context = this@Category,list = list)
+                catrecycler.adapter=CatAdapter(context = this@Category,list = list,key = key)
                 catrecycler.layoutManager=LinearLayoutManager(this@Category)
                 if (dialog.isShowing)
                     dialog.dismiss()
@@ -65,7 +70,7 @@ class Category : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    class CatAdapter(var context: Context,var list: LinkedList<String>):RecyclerView.Adapter<CatAdapter.Holder>(){
+    class CatAdapter(var context: Context,var list: LinkedList<String>,var key:String):RecyclerView.Adapter<CatAdapter.Holder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatAdapter.Holder {
             return Holder(LayoutInflater.from(context).inflate(R.layout.categoryitem,parent,false))
         }
@@ -86,7 +91,7 @@ class Category : AppCompatActivity() {
         override fun onBindViewHolder(holder: CatAdapter.Holder, position: Int) {
             holder.text.text=list[position]
             holder.cardView.setOnClickListener {
-
+                context.startActivity(Intent(context,StatusScreen::class.java).putExtra("key","$key/${list[position]}"))
             }
         }
 
