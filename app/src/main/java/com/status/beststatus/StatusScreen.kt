@@ -2,6 +2,7 @@ package com.status.beststatus
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,9 +19,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.yuyakaido.android.cardstackview.*
-import kotlinx.android.synthetic.main.activity_category.*
 import java.util.*
-
+import androidx.constraintlayout.widget.ConstraintLayout
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.view.MenuItem
+import android.widget.Button
 
 
 class StatusScreen : AppCompatActivity(),CardStackListener {
@@ -64,6 +69,7 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_status_screen)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         var key=intent.getStringExtra("key")
         val database = FirebaseDatabase.getInstance()
@@ -97,6 +103,10 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
             }
         })
     }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        onBackPressed()
+        return super.onOptionsItemSelected(item)
+    }
 
     class Status(var status:String, var rightsave:Float= 0F, var leftdismiss:Float=0F)
 
@@ -107,16 +117,20 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
         }
         class MyHolder(itemview:View):RecyclerView.ViewHolder(itemview) {
             lateinit var copy:FrameLayout
+            lateinit var copy2:Button
             lateinit var download:FrameLayout
             lateinit var statustext:TextView
             lateinit var rightsave: TextView
             lateinit var leftdismiss: TextView
+            lateinit var constint:ConstraintLayout
             init {
                 copy=itemview.findViewById(R.id.copybutton)
+                copy2=itemview.findViewById(R.id.copybutton2)
                 download=itemview.findViewById(R.id.downloadbutton)
                 statustext=itemview.findViewById(R.id.statustext)
                 rightsave=itemview.findViewById(R.id.saveright)
                 leftdismiss=itemview.findViewById(R.id.dismissleft)
+                constint=itemview.findViewById(R.id.constraint)
             }
         }
 
@@ -138,6 +152,40 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
             holder.statustext.text=list[position].status
             holder.rightsave.alpha= list[position].rightsave
             holder.leftdismiss.alpha=list[position].leftdismiss
+            holder.constint.setBackgroundColor(Color.parseColor(getrandomcolor()))
+            holder.copy.setOnClickListener {
+                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("status", list[position].status)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(context,"Status Copied",Toast.LENGTH_SHORT).show()
+            }
+            holder.copy2.setOnClickListener {
+                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("status", list[position].status)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(context,"Status Copied",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        fun getrandomcolor():String{
+            var color="#578ECB"
+            val rand = Random()
+            var rannum=rand.nextInt(12)
+            when(rannum){
+                0->color="#578ECB"
+                1->color="#301934"
+                2->color="#013220"
+                3->color="#e75480"
+                4->color="#FF8C00"
+                5->color="#8b0000"
+                6->color="#808080"
+                7->color="#00008b"
+                8->color="#000000"
+                9->color="#00FFFF"
+                10->color="#800000"
+                11->color="#808000"
+            }
+            return color
         }
 
     }
