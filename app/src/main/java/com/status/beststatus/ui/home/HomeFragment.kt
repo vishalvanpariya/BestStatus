@@ -28,11 +28,11 @@ class HomeFragment : Fragment() {
         var fav=root.findViewById<Button>(R.id.fav)
 
         hindi.setOnClickListener {
-            startActivity(Intent(activity,Category::class.java))
+            startActivity(Intent(activity,Category::class.java).putExtra("key","hindi"))
         }
 
         english.setOnClickListener {
-
+            startActivity(Intent(activity,Category::class.java).putExtra("key","english"))
         }
 
         fav.setOnClickListener {

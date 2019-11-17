@@ -15,20 +15,36 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_category.*
 import java.util.*
+import android.app.ProgressDialog
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.MenuItem
+import androidx.cardview.widget.CardView
 
 
 class Category : AppCompatActivity() {
 
+    lateinit var dialog: ProgressDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("hindi")
+        val myRef = database.getReference(intent.getStringExtra("key"))
         var list=LinkedList<String>()
+
+        dialog=ProgressDialog(this)
+        dialog.setMessage("Please, Wait while loding.")
+        dialog.setCancelable(false)
+        dialog.show()
 
         myRef.addValueEventListener(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
+                if (dialog.isShowing)
+                    dialog.dismiss()
                 Toast.makeText(this@Category,"Fail to Load Data",Toast.LENGTH_SHORT).show()
             }
 
@@ -38,8 +54,15 @@ class Category : AppCompatActivity() {
                 }
                 catrecycler.adapter=CatAdapter(context = this@Category,list = list)
                 catrecycler.layoutManager=LinearLayoutManager(this@Category)
+                if (dialog.isShowing)
+                    dialog.dismiss()
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        onBackPressed()
+        return super.onOptionsItemSelected(item)
     }
 
     class CatAdapter(var context: Context,var list: LinkedList<String>):RecyclerView.Adapter<CatAdapter.Holder>(){
@@ -49,8 +72,10 @@ class Category : AppCompatActivity() {
 
         class Holder(itemview:View): RecyclerView.ViewHolder(itemview){
             lateinit var text:TextView
+            lateinit var cardView: CardView
             init {
                 text=itemview.findViewById(R.id.categorytext)
+                cardView=itemview.findViewById(R.id.itemcard)
             }
         }
 
@@ -60,6 +85,9 @@ class Category : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: CatAdapter.Holder, position: Int) {
             holder.text.text=list[position]
+            holder.cardView.setOnClickListener {
+
+            }
         }
 
     }
