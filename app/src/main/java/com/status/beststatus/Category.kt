@@ -36,6 +36,9 @@ class Category : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         var key=intent.getStringExtra("key")
+        if (key.equals("hindi")) {
+            supportActionBar!!.title ="Hindi Status"
+        }
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference(key)
         var list=LinkedList<String>()

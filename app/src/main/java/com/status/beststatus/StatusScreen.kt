@@ -24,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
 import android.view.MenuItem
 import android.widget.Button
 
@@ -72,6 +73,7 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         var key=intent.getStringExtra("key")
+        supportActionBar!!.title=key.split("/").last()
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference(intent.getStringExtra("key"))
 
@@ -119,6 +121,7 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
             lateinit var copy:FrameLayout
             lateinit var copy2:Button
             lateinit var download:FrameLayout
+            lateinit var download2:Button
             lateinit var statustext:TextView
             lateinit var rightsave: TextView
             lateinit var leftdismiss: TextView
@@ -127,6 +130,7 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
                 copy=itemview.findViewById(R.id.copybutton)
                 copy2=itemview.findViewById(R.id.copybutton2)
                 download=itemview.findViewById(R.id.downloadbutton)
+                download2=itemview.findViewById(R.id.downloadbutton2)
                 statustext=itemview.findViewById(R.id.statustext)
                 rightsave=itemview.findViewById(R.id.saveright)
                 leftdismiss=itemview.findViewById(R.id.dismissleft)
@@ -164,6 +168,12 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
                 val clip = ClipData.newPlainText("status", list[position].status)
                 clipboard.setPrimaryClip(clip)
                 Toast.makeText(context,"Status Copied",Toast.LENGTH_SHORT).show()
+            }
+            holder.download.setOnClickListener {
+                context.startActivity(Intent(context,DownloadScreen::class.java).putExtra("status",list[position].status))
+            }
+            holder.download2.setOnClickListener {
+                context.startActivity(Intent(context,DownloadScreen::class.java).putExtra("status",list[position].status))
             }
         }
 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DownloadScreen">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+<!--            ad placement here-->
+            <View
+                android:id="@+id/blackline1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:alpha="0.5"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/statustext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="सैर कर दुनिया की ग़ाफ़िल ज़िंदगानी फिर कहाँ,  ज़िंदगी गर कुछ रही तो ये जवानी फिर कहाँ !! – मीर दर्द"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/blackline1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"/>
+
+            <View
+                android:id="@+id/blackline2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/statustext"
+                android:alpha="0.5"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/black"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/download"
+                android:padding="16dp"
+                app:layout_constraintEnd_toStartOf="@id/edit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/blackline2"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/edit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="16dp"
+                app:layout_constraintEnd_toStartOf="@id/copy"
+                app:layout_constraintStart_toEndOf="@id/download"
+                app:layout_constraintTop_toBottomOf="@id/blackline2"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/copy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="16dp"
+                app:layout_constraintEnd_toStartOf="@id/share"
+                app:layout_constraintStart_toEndOf="@id/edit"
+                app:layout_constraintTop_toBottomOf="@id/blackline2"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/share"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/copy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/blackline2"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
