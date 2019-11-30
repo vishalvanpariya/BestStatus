@@ -67,6 +67,7 @@
                 app:layout_constraintEnd_toStartOf="@id/edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/blackline2"/>
 
             <androidx.appcompat.widget.AppCompatImageView

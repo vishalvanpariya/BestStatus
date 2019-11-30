@@ -25,6 +25,7 @@ import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import android.app.Dialog
 import android.view.Gravity
 import android.widget.SeekBar
+import android.widget.Toast
 import com.skydoves.colorpickerview.ColorPickerDialog
 
 
@@ -48,7 +49,7 @@ class EditScreen : AppCompatActivity() {
 
         save.setOnClickListener {
             saveBitMap(this,framlayout)
-            Log.d("xxxx","saved")
+            Toast.makeText(this,"Image Saved", Toast.LENGTH_SHORT).show()
         }
 
         gradiant.setOnClickListener {
