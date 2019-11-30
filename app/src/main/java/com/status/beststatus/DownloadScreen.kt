@@ -21,6 +21,7 @@ class DownloadScreen : AppCompatActivity() {
 
         var status=intent.getStringExtra("status")
         statustext.text=status
+        var lang=intent.getStringExtra("lang")
 
         copy.setOnClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -43,7 +44,7 @@ class DownloadScreen : AppCompatActivity() {
 
 
         edit.setOnClickListener {
-            startActivity(Intent(this,EditScreen::class.java).putExtra("status",status))
+            startActivity(Intent(this,EditScreen::class.java).putExtra("status",status).putExtra("lang",lang))
         }
     }
 

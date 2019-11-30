@@ -21,7 +21,6 @@ import com.google.firebase.database.ValueEventListener
 import com.yuyakaido.android.cardstackview.*
 import java.util.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
@@ -66,6 +65,7 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
     lateinit var dialog: ProgressDialog
     lateinit var adapter:CardStackAdapter
     lateinit var cardStackView:CardStackView
+    lateinit var lang:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +76,7 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
         supportActionBar!!.title=key.split("/").last()
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference(intent.getStringExtra("key"))
+        lang=key.split("/")[0]
 
         dialog= ProgressDialog(this)
         dialog.setMessage("Please, Wait while loding.")
@@ -100,7 +101,7 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
                 var cardmanager=CardStackLayoutManager(this@StatusScreen,this@StatusScreen)
                 cardmanager.setStackFrom(StackFrom.Bottom)
                 cardStackView.layoutManager = cardmanager
-                adapter=CardStackAdapter(this@StatusScreen,list)
+                adapter=CardStackAdapter(this@StatusScreen,list,lang)
                 cardStackView.adapter=adapter
             }
         })
@@ -112,7 +113,7 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
 
     class Status(var status:String, var rightsave:Float= 0F, var leftdismiss:Float=0F)
 
-    class CardStackAdapter(var context: Context,var list:LinkedList<Status>):RecyclerView.Adapter<CardStackAdapter.MyHolder>(){
+    class CardStackAdapter(var context: Context,var list:LinkedList<Status>,var lang:String):RecyclerView.Adapter<CardStackAdapter.MyHolder>(){
         lateinit var holderlist:LinkedList<MyHolder>
         init {
             holderlist= LinkedList()
@@ -170,10 +171,16 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
                 Toast.makeText(context,"Status Copied",Toast.LENGTH_SHORT).show()
             }
             holder.download.setOnClickListener {
-                context.startActivity(Intent(context,DownloadScreen::class.java).putExtra("status",list[position].status))
+                var intent=Intent(context,DownloadScreen::class.java)
+                intent.putExtra("status",list[position].status)
+                intent.putExtra("lang",lang)
+                context.startActivity(intent)
             }
             holder.download2.setOnClickListener {
-                context.startActivity(Intent(context,DownloadScreen::class.java).putExtra("status",list[position].status))
+                var intent=Intent(context,DownloadScreen::class.java)
+                intent.putExtra("status",list[position].status)
+                intent.putExtra("lang",lang)
+                context.startActivity(intent)
             }
         }
 

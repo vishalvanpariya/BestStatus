@@ -12,23 +12,29 @@ import kotlinx.android.synthetic.main.activity_download_screen.statustext
 import android.os.Environment
 import java.io.File
 import java.io.FileOutputStream
-import android.R.attr.name
 import android.content.Context
 import android.graphics.Typeface
 import java.io.IOException
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Handler
 import kotlinx.android.synthetic.main.activity_edit_screen.*
 import android.util.DisplayMetrics
 import android.util.Log
-import androidx.core.content.res.ResourcesCompat
+import android.app.AlertDialog
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
+import android.app.Dialog
+import android.view.Gravity
+import android.widget.SeekBar
+import com.skydoves.colorpickerview.ColorPickerDialog
+
+
 
 
 class EditScreen : AppCompatActivity() {
     var temp:Int=0
     var temp2:Int=0
     var temp3=0
+    var size=12
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,30 +96,107 @@ class EditScreen : AppCompatActivity() {
             onBackPressed()
         }
 
+        colorpicker.setOnClickListener {
+            ColorPickerDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                .setTitle("ColorPicker")
+                .setPreferenceName("MyColorPickerDialog")
+                .setPositiveButton("Ok",
+                    ColorEnvelopeListener { envelope, fromUser ->
+                        statustext.setTextColor(envelope.color)
+                    })
+                .setNegativeButton("Cancel"
+                ) { dialogInterface, i -> dialogInterface.dismiss() }
+                .attachAlphaSlideBar(true) // default is true. If false, do not show the AlphaSlideBar.
+                .attachBrightnessSlideBar(true)  // default is true. If false, do not show the BrightnessSlideBar.
+                .show()
+        }
+
         font.setOnClickListener {
-            temp3++
-            if (temp3==18)
-                temp3=1
-            Log.d("xxxx","$temp3")
-            when(temp3){
-                1->statustext.typeface= Typeface.createFromAsset(getAssets(),"alexrush.ttf")
-                2->statustext.typeface= Typeface.createFromAsset(getAssets(),"allura.otf")
-                3->statustext.typeface= Typeface.createFromAsset(getAssets(),"amatic.ttf")
-                4->statustext.typeface= Typeface.createFromAsset(getAssets(),"arizonia.ttf")
-                5->statustext.typeface= Typeface.createFromAsset(getAssets(),"blackjack.otf")
-                6->statustext.typeface= Typeface.createFromAsset(getAssets(),"ffftusj.ttf")
-                7->statustext.typeface= Typeface.createFromAsset(getAssets(),"grandhotel.otf")
-                8->statustext.typeface= Typeface.createFromAsset(getAssets(),"greatvibes.otf")
-                9->statustext.typeface= Typeface.createFromAsset(getAssets(),"opensans.ttf")
-                10->statustext.typeface= Typeface.createFromAsset(getAssets(),"ostrichsans.otf")
-                11->statustext.typeface= Typeface.createFromAsset(getAssets(),"pacifico.ttf")
-                12->statustext.typeface= Typeface.createFromAsset(getAssets(),"quicksand.otf")
-                13->statustext.typeface= Typeface.createFromAsset(getAssets(),"roboto.ttf")
-                14->statustext.typeface= Typeface.createFromAsset(getAssets(),"seasrn.ttf")
-                15->statustext.typeface= Typeface.createFromAsset(getAssets(),"sofia.otf")
-                16->statustext.typeface= Typeface.createFromAsset(getAssets(),"walkway.ttf")
-                17->statustext.typeface= Typeface.createFromAsset(getAssets(),"windsong.ttf")
+            if (intent.getStringExtra("lang").equals("hindi")){
+                temp3++
+                if (temp3 == 14)
+                    temp3 = 1
+                when (temp3) {
+                    1 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "aksharunicode.ttf")
+                    2 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "asarregular.ttf")
+                    3 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "biryaniregular.ttf")
+                    4 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "khandregular.ttf")
+                    5 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "kuraleregular.ttf")
+                    6 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "modakregular.ttf")
+                    7 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "mohini.ttf")
+                    8 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "poppinsregular.ttf")
+                    9 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "sahadeva.ttf")
+                    10 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "sanskrit2003.ttf")
+                    11 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "sarpanchregular.ttf")
+                    12 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "tillanaregular.ttf")
+                    13 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "yatraoneregular.ttf")
+                }
             }
+            else {
+                temp3++
+                if (temp3 == 18)
+                    temp3 = 1
+                when (temp3) {
+                    1 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "alexrush.ttf")
+                    2 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "allura.otf")
+                    3 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "amatic.ttf")
+                    4 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "arizonia.ttf")
+                    5 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "blackjack.otf")
+                    6 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "ffftusj.ttf")
+                    7 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "grandhotel.otf")
+                    8 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "greatvibes.otf")
+                    9 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "opensans.ttf")
+                    10 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "ostrichsans.otf")
+                    11 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "pacifico.ttf")
+                    12 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "quicksand.otf")
+                    13 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "roboto.ttf")
+                    14 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "seasrn.ttf")
+                    15 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "sofia.otf")
+                    16 -> statustext.typeface = Typeface.createFromAsset(getAssets(), "walkway.ttf")
+                    17 -> statustext.typeface =
+                        Typeface.createFromAsset(getAssets(), "windsong.ttf")
+                }
+            }
+        }
+
+        textsize.setOnClickListener {
+            var dialog=Dialog(this)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(R.layout.seekbardialog)
+            var window=dialog.window
+            window!!.setGravity(Gravity.TOP)
+            dialog.show()
+
+            var seekbar = dialog.findViewById<SeekBar>(R.id.seekbar)
+            seekbar.progress=size
+            seekbar.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    statustext.textSize= (p1+12).toFloat()
+                    size=p1
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+
+            })
         }
     }
 
