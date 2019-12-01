@@ -16,11 +16,11 @@ import android.net.Uri
 import android.os.Environment
 import android.os.Handler
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.util.TypedValue
+import android.view.*
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Constraints
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -40,6 +40,7 @@ class DownloadScreen : AppCompatActivity() {
         supportActionBar!!.title="Status"
 
         db= Database(this)
+
 
 
 
@@ -69,11 +70,12 @@ class DownloadScreen : AppCompatActivity() {
         }
 
         download.setOnClickListener {
-            var layout= (getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.dynamicframlayout,null)
-            var text=layout.findViewById<TextView>(R.id.statustext)
-            text.text=status
-            saveBitMap(this,layout)
-            Toast.makeText(this,"Image Saved",Toast.LENGTH_SHORT).show()
+//            var layout= (getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.dynamicframlayout,null)
+//            var text=layout.findViewById<TextView>(R.id.statustext)
+//            text.text=status
+//            saveBitMap(this,layout)
+//            Toast.makeText(this,"Image Saved",Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this,EditScreen::class.java).putExtra("status",status).putExtra("lang",lang))
         }
 
 
