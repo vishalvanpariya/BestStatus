@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Status Admin</title>
+
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+</head>
+
+<body>
+    <select id="lang">
+        <option value="hindi">Hindi</option>
+        <option value="english">English</option>
+    </select>
+    <br />
+    <br />
+    <select id="category">
+        <option value="Attitude Status">Attitude Status</option>
+        <option value="Dosti Status">Dosti Status</option>
+        <option value="Father Status">Father Status</option>
+        <option value="Funny Status">Funny Status</option>
+        <option value="Girl Love Status">Girl Love Status</option>
+        <option value="Girl Attitude Status">Girl Attitude Status</option>
+        <option value="Love Status">Love Status</option>
+        <option value="Mother Status">Mother Status</option>
+        <option value="Sad Status">Sad Status</option>
+    </select>
+    <br />
+    <br />
+    <div>
+        Status: <input id="status" name="status" style="width: 1000px; height: 200px; padding: 20px;" type="text">
+    </div>
+    <br />
+    <br />
+    <input id="submit" name="submit" onclick="upload()" type="submit">
+</body>
+
+<script>
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyB7OSUdQohwCRopzUqQxS45OZq0KrbR5Tk",
+        authDomain: "cprogramming-701f6.firebaseapp.com",
+        databaseURL: "https://cprogramming-701f6.firebaseio.com",
+        projectId: "cprogramming-701f6",
+        storageBucket: "cprogramming-701f6.appspot.com",
+        messagingSenderId: "148156006580",
+        appId: "1:148156006580:web:842a76b60fc2603e4297e1"
+    };
+    firebase.initializeApp(firebaseConfig);
+    var database = firebase.database();
+
+    function upload() {
+        var e = document.getElementById("lang");
+        var lang = e.options[e.selectedIndex].text;
+        lang=lang.toLowerCase()
+
+        var e1 = document.getElementById("category");
+        var category = e1.options[e1.selectedIndex].text;
+
+        var status = document.getElementById("status").value;
+        
+
+        var ref=firebase.database().ref().child(lang);
+        var key=ref.child(category).push().key;
+        ref.child(category).child(key).set(status);
+
+        document.getElementById("status").value="";
+    }
+</script>
+
+</html>
