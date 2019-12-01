@@ -1,6 +1,10 @@
 package com.status.beststatus
 
+import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -21,6 +28,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,6 +36,13 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         setSupportActionBar(toolbar)
 
         toolbar.title="Best Status 2019"
+
+        requestPermissions(
+            arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ), 200
+        )
 
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -46,6 +61,27 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         navView.setupWithNavController(navController)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode==200){
+            if (grantResults[0]!= PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this,"Sorry without permission you can not use this app", Toast.LENGTH_SHORT).show()
+                var alertDialog= AlertDialog.Builder(this!!)
+                    .setTitle("")
+                    .setMessage("Sorry without permission you can not use this app")
+                    .setPositiveButton("Ok",object : DialogInterface.OnClickListener{
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                            p0!!.dismiss()
+                            finish()
+                        }
+                    })
+                alertDialog.show()
+            }
+        }
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)

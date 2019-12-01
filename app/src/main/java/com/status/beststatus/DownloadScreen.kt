@@ -17,6 +17,7 @@ import android.os.Environment
 import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -27,15 +28,26 @@ import java.io.IOException
 
 class DownloadScreen : AppCompatActivity() {
 
+    lateinit var status:String
+    lateinit var db:Database
+    lateinit var menu: Menu
+    lateinit var lang:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_download_screen)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title="Status"
 
-        var status=intent.getStringExtra("status")
+        db= Database(this)
+
+
+
+        status=intent.getStringExtra("status")
         statustext.text=status
-        var lang=intent.getStringExtra("lang")
+        lang=intent.getStringExtra("lang")
+
+
 
         copy.setOnClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -69,6 +81,39 @@ class DownloadScreen : AppCompatActivity() {
             startActivity(Intent(this,EditScreen::class.java).putExtra("status",status).putExtra("lang",lang))
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        getMenuInflater().inflate(R.menu.main, menu)
+        this.menu=menu!!
+        if (db.exist(status)){
+            menu.getItem(0).setIcon(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
+        }
+        return true
+    }
+
+    fun share(item: MenuItem) {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, status)
+        startActivity(
+            Intent.createChooser(
+                sharingIntent,
+                "Share Status"
+            )
+        )
+    }
+
+    fun addfav(item: MenuItem){
+        if (db.exist(status)){
+            db.delete(status)
+            menu.getItem(0).setIcon(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
+        }
+        else{
+            db.insert(status,lang)
+            menu.getItem(0).setIcon(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
+        }
+    }
+
 
     private fun saveBitMap(context: Context, drawView: View): File? {
         val pictureFileDir = File(
@@ -133,4 +178,6 @@ class DownloadScreen : AppCompatActivity() {
         onBackPressed()
         return super.onOptionsItemSelected(item)
     }
+
+
 }

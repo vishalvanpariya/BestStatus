@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.status.beststatus.Category
+import com.status.beststatus.FavAct
 import com.status.beststatus.R
 
 class HomeFragment : Fragment() {
@@ -36,7 +37,7 @@ class HomeFragment : Fragment() {
         }
 
         fav.setOnClickListener {
-
+            startActivity(Intent(activity,FavAct::class.java))
         }
 
         return root

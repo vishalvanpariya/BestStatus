@@ -39,6 +39,9 @@ class Category : AppCompatActivity() {
         if (key.equals("hindi")) {
             supportActionBar!!.title ="Hindi Status"
         }
+        else{
+            supportActionBar!!.title ="English Status"
+        }
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference(key)
         var list=LinkedList<String>()
@@ -99,4 +102,6 @@ class Category : AppCompatActivity() {
         }
 
     }
+
+
 }

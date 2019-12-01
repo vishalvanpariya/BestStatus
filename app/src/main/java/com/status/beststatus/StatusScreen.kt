@@ -29,6 +29,7 @@ import android.widget.Button
 
 
 class StatusScreen : AppCompatActivity(),CardStackListener {
+    lateinit var t:CardStackAdapter.MyHolder
     var currentpos=0
     override fun onCardDisappeared(view: View?, position: Int) {
 
@@ -42,10 +43,14 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
         else{
             temp.leftdismiss.alpha=ratio
         }
+        t=temp
     }
 
     override fun onCardSwiped(direction: Direction?) {
-        Log.d("xxxx","$direction")
+        var temp=t
+        if (direction.toString().equals("Right")) {
+            db.insert(temp.statustext.text.toString(), lang)
+        }
     }
 
     override fun onCardCanceled() {
@@ -66,11 +71,14 @@ class StatusScreen : AppCompatActivity(),CardStackListener {
     lateinit var adapter:CardStackAdapter
     lateinit var cardStackView:CardStackView
     lateinit var lang:String
+    lateinit var db:Database
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_status_screen)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        db= Database(this)
 
         var key=intent.getStringExtra("key")
         supportActionBar!!.title=key.split("/").last()
